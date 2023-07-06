@@ -1,6 +1,15 @@
 const axios = require('axios')
+const SocksProxyAgent = require('socks-proxy-agent');
+
 const { Console, timeStamp } = require('console')
 const { encode } = require('punycode')
+
+
+const httpsAgent = new SocksProxyAgent.SocksProxyAgent("socks://127.0.0.1:9898");
+
+
+
+
 
 const removeEmptyValue = obj => {
   if (!(obj instanceof Object)) return {}
@@ -46,7 +55,9 @@ const CreateRequest = (config) => {
     }).request({
       method,
       url,
-      params
+      params,
+      httpsAgent: httpsAgent,
+      httpAgent: httpsAgent,
     })
   }
   if (method === 'POST') {
@@ -58,10 +69,13 @@ const CreateRequest = (config) => {
         'Request-Time': timestamp,
         'Signature': Signature
       },
+      httpsAgent:httpsAgent
     }).request({
       method,
       url,
-      data: params
+      data: params,
+      httpsAgent: httpsAgent,
+      httpAgent: httpsAgent,
     })
   }
 }
@@ -82,7 +96,9 @@ const createRequest = (config) => {
     }
   }).request({
     method,
-    url
+    url,
+    httpsAgent: httpsAgent,
+    httpAgent: httpsAgent,
   })
 }
 
@@ -97,7 +113,9 @@ const pubRequest = (config) => {
     }
   }).request({
     method,
-    url
+    url,
+    httpsAgent: httpsAgent,
+    httpAgent: httpsAgent,
   })
 }
 
