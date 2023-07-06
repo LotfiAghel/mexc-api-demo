@@ -1,59 +1,30 @@
-const Future = require('../../src/future')
-const apiKey = ''
-const apiSecret = ''
+const Future = require('../src/future')
+const apiKey = "mx0vglfrvT5BeBZFgD";
+const apiSecret = "f89f7b43718b4ab6803139a4053f3e55";
+
+
+const Spot = require('../src/spot')
+const client0 = new Spot(apiKey, apiSecret, { baseURL: 'https://api.mexc.com' })
+
+
+client0.SymbolPriceTicker().then(response => {
+    for(i in response.data)
+      if(response.data[i]["symbol"]=="ETHUSDT")
+        client0.logger.log(response.data[i]);
+  })
+  .catch(error => client0.logger.error(error))
+
+
 const client = new Future(apiKey, apiSecret, { baseURL: 'https://contract.mexc.com' })
 
 
-
-//Asset
-client.Assets().then(response => client.logger.log(response.data))
-
-
-//Contract Information
-client.ContractDetail().then(response => client.logger.log(response.data))
-  .catch(error => client.logger.error(error))
-
-//Depth
-client.DepthBySymbol().then(response => client.logger.log(JSON.stringify(response.data)))
-  .catch(error => client.logger.error(error))
-
-//Contractual funding rates
-client.FundingRateHistory({
-  symbol: 'BTC_USDT',
-  page_num: 1,
-  page_size: 1
-}).then(response => client.logger.log(response.data))
-  .catch(error => client.logger.error(error))
-
 //Place an order
 client.PlaceNewOrder({
-  symbol: 'IMX_USDT',
-  price: 0.1,
-  vol: 10,
+  symbol: 'ETH_USDT',
+  price: 1911.24,
+  vol: 18.0/1911,
   side: 1,
-  type: 1,
-  openType: 2
+  type: 2,
+  openType: 1,
+  leverage : 1
 }).then(response => client.logger.log(response.data))
-
-//Batch orders
-client.PlaceNewOrderBatch([{
-  symbol: 'IMX_USDT',
-  price: 0.1,
-  vol: 10,
-  side: 1,
-  type: 1,
-  openType: 2
-},
-{
-  symbol: 'IMX_USDT',
-  price: 0.2,
-  vol: 10,
-  side: 1,
-  type: 1,
-  openType: 2
-}]).then(response => client.logger.log(response.data))
-
-//Ticker
-client.Ticker({ symbol: 'BTC_USDT' }).then(response => client.logger.log(response.data))
-  .catch(error => client.logger.error(error))
-
