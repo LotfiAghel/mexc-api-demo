@@ -1,6 +1,6 @@
 const Future = require('../src/future')
-const apiKey = "mx0vglfrvT5BeBZFgD";
-const apiSecret = "f89f7b43718b4ab6803139a4053f3e55";
+const apiKey = "mx0vgl4MSctHWdP2gq";
+const apiSecret = "25602cb296fc4f3987defb7160abcea7";
 
 
 const Spot = require('../src/spot')
@@ -9,7 +9,7 @@ const client0 = new Spot(apiKey, apiSecret, { baseURL: 'https://api.mexc.com' })
 
 client0.SymbolPriceTicker().then(response => {
     for(i in response.data)
-      if(response.data[i]["symbol"]=="ETHUSDT")
+      if(response.data[i]["symbol"]=="BTCUSDT")
         client0.logger.log(response.data[i]);
   })
   .catch(error => client0.logger.error(error))
@@ -20,11 +20,20 @@ const client = new Future(apiKey, apiSecret, { baseURL: 'https://contract.mexc.c
 
 //Place an order
 client.PlaceNewOrder({
-  symbol: 'ETH_USDT',
-  price: 1911.24,
-  vol: 18.0/1911,
+  symbol: 'BTC_USDT',
+  //price: 1911.24,
+  vol: 4,
   side: 1,
-  type: 2,
+  type: 5,
+  feeCurrency: 'USDT',
   openType: 1,
-  leverage : 1
+  leverage : 1,
+  positionMode : 1
 }).then(response => client.logger.log(response.data))
+
+
+
+
+
+client.OrderDeals().then(response => client.logger.log(response.data))  
+client.DealDetails({orderId:"431890772808257024"}).then(response => client.logger.log(response.data))  
