@@ -36,4 +36,4 @@ client.PlaceNewOrder({
 
 
 client.OrderDeals().then(response => client.logger.log(response.data))  
-client.DealDetails({orderId:"431890772808257024"}).then(response => client.logger.log(response.data))  
+client.DealDetails({orderId:'1426406190'}).then(response => client.logger.log(response.data))  
